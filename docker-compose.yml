@@ -1,0 +1,9 @@
+
+services:
+  frontend:
+    tty: true
+    stdin_open: true
+    build: .
+    command: yarn start
+    ports:
+      - 3000:3000
