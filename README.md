@@ -1,12 +1,14 @@
-# React Invoice Generator
+# Invoice Generator
 
-React Invoice Generator allows you quickly make invoices and save them as PDF. [https://tuanpham-dev.github.io/react-invoice-generator/](https://tuanpham-dev.github.io/react-invoice-generator/)
+The aim is to generate invoices for new projects
 
-![react-invoice-generator](https://raw.githubusercontent.com/tuanpham-dev/react-invoice-generator/master/screenshot.png)
+How to run this?
 
-## Available Scripts
+```sh
+# Project is already setup using docker and compose. To run the project:
+docker-compose up -d
 
-In the project directory, you can run:
+```
 
 ### `yarn start`
 

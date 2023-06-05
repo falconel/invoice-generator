@@ -5,6 +5,7 @@ export interface ProductLine {
   description: string
   quantity: string
   rate: string
+  days: string
 }
 
 export const TProductLine = z.object({

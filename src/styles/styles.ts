@@ -22,6 +22,16 @@ const styles: CSSClasses = {
     backgroundColor: colorGray,
   },
 
+  'columnFlex': {
+    display: "flex",
+    flexDirection: 'column',
+  },
+
+  'flexJustify': {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+
   flex: {
     display: 'flex',
     flexDirection: 'row',
