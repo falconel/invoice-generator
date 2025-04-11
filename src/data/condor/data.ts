@@ -89,8 +89,8 @@ export const initialInvoice: Invoice = {
   taxLabel: 'GST (0%)',
   totalLabel: 'TOTAL',
   currency: '$',
-  notesLabel: 'Notes',
-  notes: 'It was great doing business with you.',
-  termLabel: 'Terms & Conditions',
-  term: 'Please make the payment by the due date.',
+  notesLabel: 'It was great doing business with you.',
+  notes: '',
+  termLabel: 'Payment Details',
+  term: 'Account Name     : FALCONEL TECHNOLOGIES LLP\nAccount Number  : 437405000591\nIFSC Code             : ICIC0004374\nSWIFT Code         : ICICINBBNRI',
 }
