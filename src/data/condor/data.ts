@@ -1,6 +1,7 @@
-import { ProductLine, Invoice } from '../types'
+
 // const logo = require('../assets/logo.png');
 import logo from '../logo.jpg'
+import type { Invoice, ProductLine } from '../types';
 
 export const initialProductLine: ProductLine = {
   description: '',
@@ -22,7 +23,7 @@ const getFirstAndLastDates = (year: number, monthName: string) => {
   const monthIndex = new Date(`${monthName} 1, ${year}`).getMonth();
   const startDate = new Date(year, monthIndex, 1);
   const endDate = new Date(year, monthIndex + 1, 0);
-  
+
   return {
     startDate,
     endDate

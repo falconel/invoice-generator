@@ -1,6 +1,7 @@
-import { FC, useState, useEffect } from 'react'
-import { Invoice, ProductLine } from '../data/types'
-import { initialInvoice, initialProductLine } from '../data/initialData'
+import type { FC } from 'react'
+import { useState, useEffect } from 'react'
+import type { Invoice, ProductLine } from '../data/types'
+import { initialInvoice, initialProductLine } from '../data/condor/data'
 import EditableInput from './EditableInput'
 import EditableSelect from './EditableSelect'
 import EditableTextarea from './EditableTextarea'
@@ -83,7 +84,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
           ) {
             newProductLine[name] = value;
           } else {
-            const n = parseFloat(value);
+            const n = Number.parseFloat(value);
 
             newProductLine[name] = (n ? n : 0).toString();
           }
@@ -111,9 +112,9 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   };
 
   const calculateAmount = (quantity: string, rate: string, days: string) => {
-    const quantityNumber = parseFloat(quantity);
-    const rateNumber = parseFloat(rate);
-    const daysNumber = parseFloat(days);
+    const quantityNumber = Number.parseFloat(quantity);
+    const rateNumber = Number.parseFloat(rate);
+    const daysNumber = Number.parseFloat(days);
     const amount =
       quantityNumber && rateNumber
         ? quantityNumber * rateNumber * daysNumber
@@ -125,24 +126,24 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
   useEffect(() => {
     let subTotal = 0;
 
-    invoice.productLines.forEach((productLine) => {
-      const quantityNumber = parseFloat(productLine.quantity);
-      const rateNumber = parseFloat(productLine.rate);
-      const daysNumber = parseFloat(productLine.days);
-      const amount =
-        quantityNumber && rateNumber
-          ? quantityNumber * rateNumber * daysNumber
-          : 0;
+    for(const productLine of invoice.productLines) {
+      const quantityNumber = Number.parseFloat(productLine.quantity);
+        const rateNumber = Number.parseFloat(productLine.rate);
+        const daysNumber = Number.parseFloat(productLine.days);
+        const amount =
+          quantityNumber && rateNumber
+            ? quantityNumber * rateNumber * daysNumber
+            : 0;
 
-      subTotal += amount;
-    });
+        subTotal += amount;
+    }
 
     setSubTotal(subTotal);
   }, [invoice.productLines]);
 
   useEffect(() => {
     const match = invoice.taxLabel.match(/(\d+)%/);
-    const taxRate = match ? parseFloat(match[1]) : 0;
+    const taxRate = match ? Number.parseFloat(match[1]) : 0;
     const saleTax = subTotal ? (subTotal * taxRate) / 100 : 0;
 
     setSaleTax(saleTax);
@@ -367,7 +368,7 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
 
         {invoice.productLines.map((productLine, i) => {
           return pdfMode && productLine.description === "" ? (
-            <Text key={i}></Text>
+            <Text key={i} />
           ) : (
             <View key={i} className="row flex" pdfMode={pdfMode}>
               <View className="w-48 p-4-8 pb-10" pdfMode={pdfMode}>
@@ -423,12 +424,13 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
               </View>
               {!pdfMode && (
                 <button
+                  type="button"
                   className="link row__remove"
                   aria-label="Remove Row"
                   title="Remove Row"
                   onClick={() => handleRemove(i)}
                 >
-                  <span className="icon icon-remove bg-red"></span>
+                  <span className="icon icon-remove bg-red" />
                 </button>
               )}
             </View>
@@ -438,8 +440,8 @@ const InvoicePage: FC<Props> = ({ data, pdfMode, onChange }) => {
         <View className="flex" pdfMode={pdfMode}>
           <View className="w-50 mt-10" pdfMode={pdfMode}>
             {!pdfMode && (
-              <button className="link" onClick={handleAdd}>
-                <span className="icon icon-add bg-green mr-10"></span>
+              <button type='button' className="link" onClick={handleAdd}>
+                <span className="icon icon-add bg-green mr-10"/>
                 Add Line Item
               </button>
             )}

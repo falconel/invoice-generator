@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import type { FC, ChangeEvent } from 'react'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { Invoice, TInvoice } from '../data/types'
+import type { Invoice } from '../data/types'
+import { TInvoice } from '../data/types'
 import { useDebounce } from '@uidotdev/usehooks'
 import InvoicePage from './InvoicePage'
 import FileSaver from 'file-saver'
@@ -13,7 +14,7 @@ interface Props {
 const Download: FC<Props> = ({ data, setData }) => {
   const debounced = useDebounce(data, 500)
 
-  function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInput(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files?.length) return
 
     const file = e.target.files[0]
@@ -21,10 +22,11 @@ const Download: FC<Props> = ({ data, setData }) => {
       .text()
       .then((str: string) => {
         try {
+          let dataStr = str;
           if (!(str.startsWith('{') && str.endsWith('}'))) {
-            str = atob(str)
+            dataStr = atob(str)
           }
-          const d = JSON.parse(str)
+          const d = JSON.parse(dataStr)
           const dParsed = TInvoice.parse(d)
           console.info('parsed correctly')
           setData(dParsed)
@@ -40,7 +42,7 @@ const Download: FC<Props> = ({ data, setData }) => {
     const blob = new Blob([JSON.stringify(debounced)], {
       type: 'text/plain;charset=utf-8',
     })
-    FileSaver(blob, title + '.template')
+    FileSaver(blob, `${title}.template`)
   }
 
   const title = data.invoiceTitle ? data.invoiceTitle.toLowerCase() : 'invoice'
@@ -53,10 +55,11 @@ const Download: FC<Props> = ({ data, setData }) => {
         aria-label="Save PDF"
         title="Save PDF"
         className="download-pdf__pdf"
-      ></PDFDownloadLink>
+      />
       <p>Save PDF</p>
 
       <button
+        type="button"
         onClick={handleSaveTemplate}
         aria-label="Save Template"
         title="Save Template"
